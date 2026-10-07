@@ -1,16 +1,52 @@
-// TODO(sito): la home non è ancora implementata.
-// Deve elencare i post pubblicati usando API_ROUTES.publishedPosts.
+import { API_ROUTES, ROUTES, apiUrl, type Post } from "@/contracts/blog";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { PostCard } from "@/components/ui/PostCard";
 
-export default function HomePlaceholder() {
+async function loadPublishedPosts(): Promise<Post[] | null> {
+  try {
+    const res = await fetch(apiUrl(API_ROUTES.publishedPosts), { cache: "no-store" });
+    if (!res.ok) return null;
+    const posts: Post[] = await res.json();
+    return posts.toSorted((a, b) => b.createdAt.localeCompare(a.createdAt));
+  } catch {
+    return null;
+  }
+}
+
+export default async function HomePage() {
+  const posts = await loadPublishedPosts();
+
   return (
-    <div className="rounded-lg border border-dashed border-slate-300 bg-white p-8">
-      <h1 className="text-xl font-semibold">La home non è ancora implementata</h1>
-      <p className="mt-2 text-slate-600">
-        Deve elencare i post pubblicati, dal più recente. Le API funzionano già:
-      </p>
-      <pre className="mt-4 overflow-x-auto rounded bg-slate-900 p-4 text-sm text-slate-100">
-curl -s &quot;localhost:3000/api/posts?status=published&quot;
-      </pre>
+    <div>
+      <h1 className="font-serif text-4xl font-semibold tracking-tight">Articoli</h1>
+
+      <div className="mt-8">
+        {posts === null ? (
+          <p role="alert" className="text-pencil-red">
+            Non è stato possibile caricare gli articoli. Ricarica la pagina tra qualche
+            istante.
+          </p>
+        ) : posts.length === 0 ? (
+          <EmptyState
+            title="Nessun articolo pubblicato"
+            description="Quando un articolo viene pubblicato dal backoffice, compare qui."
+          />
+        ) : (
+          <ul className="divide-y divide-rule">
+            {posts.map((post) => (
+              <li key={post.id}>
+                <PostCard
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  author={post.author}
+                  date={post.createdAt}
+                  href={ROUTES.post(post.slug)}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
