@@ -110,15 +110,4 @@ Commit piccoli, messaggi in inglese in formato conventional commit.
 
 ## Regole aggiunte dal team
 
-<!-- TODO: si riempie strada facendo, non adesso.
-
-     Ci va quello che hai dovuto spiegare a Claude due volte. Una regola
-     scritta prima di sbagliare è un'opinione; scritta dopo un problema vero è
-     una regola, e si riconosce perché dice anche cosa succede se la ignori.
-
-     Esempio della forma giusta:
-       Le pagine del sito fanno fetch con cache "no-store". Senza, un post
-       appena creato non compare in home e sembra un bug delle API.
-
-     Esempio della forma inutile:
-       Attenzione alla cache. -->
+Le pagine del sito fanno fetch con `cache: "no-store"`. Senza, un post creato nel backoffice non compare in home e sembra un bug delle API.
