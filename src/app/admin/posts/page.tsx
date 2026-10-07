@@ -1,5 +1,13 @@
 import Link from "next/link";
-import { API_ROUTES, ROUTES, apiUrl, type Post } from "@/contracts/blog";
+import clsx from "clsx";
+import {
+  API_ROUTES,
+  ROUTES,
+  apiUrl,
+  postInputSchema,
+  type Post,
+  type PostStatus,
+} from "@/contracts/blog";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { DeletePostButton } from "@/app/admin/posts/_list/DeletePostButton";
@@ -17,10 +25,25 @@ async function getPosts(): Promise<Post[]> {
   return response.json();
 }
 
-export default async function AdminPostsPage() {
+const filters: { label: string; status: PostStatus | null }[] = [
+  { label: "Tutti", status: null },
+  { label: "Bozze", status: "draft" },
+  { label: "Pubblicati", status: "published" },
+];
+
+type AdminPostsPageProps = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export default async function AdminPostsPage({ searchParams }: AdminPostsPageProps) {
+  // Un valore diverso da draft o published (o assente) vuol dire nessun filtro.
+  const parsedStatus = postInputSchema.shape.status.safeParse((await searchParams).status);
+  const activeStatus = parsedStatus.success ? parsedStatus.data : null;
+
   const posts = await getPosts();
+  const visible = activeStatus ? posts.filter((post) => post.status === activeStatus) : posts;
   // Decisione di progetto (CLAUDE.md): l'elenco del backoffice è ordinato per titolo.
-  const sorted = posts.toSorted((a, b) => a.title.localeCompare(b.title, "it"));
+  const sorted = visible.toSorted((a, b) => a.title.localeCompare(b.title, "it"));
 
   return (
     <div className="space-y-6">
@@ -34,11 +57,43 @@ export default async function AdminPostsPage() {
         </Link>
       </div>
 
+      <nav aria-label="Filtra per stato" className="flex gap-2">
+        {filters.map((filter) => {
+          const active = filter.status === activeStatus;
+          return (
+            <Link
+              key={filter.label}
+              href={
+                filter.status
+                  ? { pathname: ROUTES.adminPosts, query: { status: filter.status } }
+                  : ROUTES.adminPosts
+              }
+              aria-current={active ? "page" : undefined}
+              className={clsx(
+                "rounded-full border px-3 py-1 text-sm font-medium transition-colors",
+                active
+                  ? "border-pencil-blue bg-pencil-blue text-on-pencil"
+                  : "border-rule bg-surface text-graphite hover:border-graphite hover:text-ink",
+              )}
+            >
+              {filter.label}
+            </Link>
+          );
+        })}
+      </nav>
+
       {sorted.length === 0 ? (
-        <EmptyState
-          title="Nessun post"
-          description="Non c'è ancora niente da correggere. Comincia scrivendo il primo post."
-        />
+        activeStatus ? (
+          <EmptyState
+            title={activeStatus === "draft" ? "Nessuna bozza" : "Nessun post pubblicato"}
+            description="Prova a cambiare filtro o a mostrare tutti i post."
+          />
+        ) : (
+          <EmptyState
+            title="Nessun post"
+            description="Non c'è ancora niente da correggere. Comincia scrivendo il primo post."
+          />
+        )
       ) : (
         <div className="overflow-x-auto rounded-md border border-rule bg-surface">
           <table className="w-full text-left text-sm">
