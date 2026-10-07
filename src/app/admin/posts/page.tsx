@@ -3,6 +3,7 @@ import { API_ROUTES, ROUTES, apiUrl, type Post } from "@/contracts/blog";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { DeletePostButton } from "@/app/admin/posts/_list/DeletePostButton";
+import { StatusToggle } from "@/app/admin/posts/_list/StatusToggle";
 
 const dateFormatter = new Intl.DateTimeFormat("it-IT", {
   day: "numeric",
@@ -75,6 +76,7 @@ export default async function AdminPostsPage() {
                       >
                         Modifica
                       </Link>
+                      <StatusToggle id={post.id} status={post.status} />
                       <DeletePostButton id={post.id} />
                     </div>
                   </td>
