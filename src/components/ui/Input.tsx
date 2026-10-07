@@ -11,10 +11,8 @@ export function Input({
   invalid = false,
 }: InputProps) {
   const className = clsx(
-    "block w-full rounded-md border bg-background px-3 py-2 text-foreground placeholder:text-neutral-400 focus:outline-none focus:ring-2",
-    invalid
-      ? "border-red-500 focus:ring-red-500/40"
-      : "border-neutral-300 focus:border-neutral-500 focus:ring-neutral-500/30 dark:border-neutral-700",
+    "block w-full rounded-sm border bg-surface px-3 py-2 text-ink placeholder:text-graphite/70",
+    invalid ? "border-pencil-red border-b-2" : "border-rule hover:border-graphite",
   );
 
   if (multiline) {
@@ -27,7 +25,7 @@ export function Input({
         placeholder={placeholder}
         aria-invalid={invalid}
         rows={8}
-        className={clsx(className, "resize-y")}
+        className={clsx(className, "resize-y leading-relaxed")}
       />
     );
   }

@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+import { Literata, Schibsted_Grotesk } from "next/font/google";
 import Link from "next/link";
+import { ROUTES } from "@/contracts/blog";
 import "./globals.css";
+
+const literata = Literata({ subsets: ["latin"], variable: "--font-literata" });
+const schibsted = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-schibsted" });
 
 export const metadata: Metadata = {
   title: "ClaudePress",
@@ -9,24 +14,29 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="it" className="h-full antialiased">
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
-        <header className="border-b border-slate-200 bg-white">
-          <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
-            <Link href="/" className="text-lg font-semibold tracking-tight">
+    <html lang="it" className={`${literata.variable} ${schibsted.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col bg-paper font-sans text-ink">
+        <header className="border-b border-rule bg-surface">
+          <div className="mx-auto flex max-w-3xl items-baseline justify-between gap-6 px-4 py-5 sm:px-6">
+            <Link
+              href={ROUTES.home}
+              className="pencil-underline font-serif text-2xl font-semibold tracking-tight"
+            >
               ClaudePress
             </Link>
-            <nav className="flex gap-5 text-sm text-slate-600">
-              <Link href="/" className="hover:text-slate-900">
+            <nav className="flex gap-5 text-sm text-graphite">
+              <Link href={ROUTES.home} className="hover:text-ink">
                 Blog
               </Link>
-              <Link href="/admin/posts" className="hover:text-slate-900">
+              <Link href={ROUTES.adminPosts} className="hover:text-ink">
                 Backoffice
               </Link>
             </nav>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">{children}</main>
+        <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+          {children}
+        </main>
       </body>
     </html>
   );

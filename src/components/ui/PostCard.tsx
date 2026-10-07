@@ -9,21 +9,22 @@ const dateFormatter = new Intl.DateTimeFormat("it-IT", {
 
 export function PostCard({ title, excerpt, author, date, href }: PostCardProps) {
   return (
-    <article className="group relative rounded-lg border border-neutral-200 p-6 transition-colors hover:border-neutral-400 dark:border-neutral-800 dark:hover:border-neutral-600">
-      <h2 className="text-xl font-semibold tracking-tight">
+    <article className="group relative py-6">
+      <h2 className="font-serif text-2xl leading-snug font-semibold tracking-tight text-ink">
         <Link
           href={href}
-          className="after:absolute after:inset-0 focus-visible:outline-none group-focus-within:underline"
+          className="after:absolute after:inset-0 group-hover:pencil-underline focus-visible:pencil-underline"
         >
           {title}
         </Link>
       </h2>
       {excerpt && (
-        <p className="mt-2 text-neutral-600 dark:text-neutral-400">{excerpt}</p>
+        <p className="mt-2 max-w-prose font-serif text-lg leading-relaxed text-graphite">
+          {excerpt}
+        </p>
       )}
-      <p className="mt-4 text-sm text-neutral-500">
-        di <span className="font-medium text-foreground">{author}</span>
-        {" · "}
+      <p className="mt-3 text-sm text-graphite">
+        <span className="font-medium text-ink">{author}</span>,{" "}
         <time dateTime={date}>{dateFormatter.format(new Date(date))}</time>
       </p>
     </article>

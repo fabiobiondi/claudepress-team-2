@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
+/*
+ * L'identità di ClaudePress viene dalla matita rossa e blu del correttore di
+ * bozze: blu per quello che è approvato e si può cliccare, rosso per quello
+ * che va corretto, grafite per quello che è ancora una bozza.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --paper: #f5f6f9;
+  --surface: #ffffff;
+  --ink: #1c2235;
+  --graphite: #5a6072;
+  --rule: #d9dce5;
+  --pencil-blue: #2541c4;
+  --pencil-red: #c4302b;
+  --on-pencil: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #141a2e;
+    --surface: #1b2238;
+    --ink: #e7e9f0;
+    --graphite: #a0a6b8;
+    --rule: #2e3650;
+    --pencil-blue: #93a6ff;
+    --pencil-red: #ff8b84;
+    --on-pencil: #141a2e;
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-rule: var(--rule);
+  --color-pencil-blue: var(--pencil-blue);
+  --color-pencil-red: var(--pencil-red);
+  --color-on-pencil: var(--on-pencil);
+
+  /* Alias dei nomi precedenti, per chi li usa già. */
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-literata), ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Il tratto di matita blu: sottolinea quello che il correttore ha approvato. */
+@utility pencil-underline {
+  text-decoration-line: underline;
+  text-decoration-color: var(--pencil-blue);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.2em;
+  text-decoration-skip-ink: none;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--pencil-blue);
+  outline-offset: 2px;
 }
