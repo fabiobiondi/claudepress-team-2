@@ -68,14 +68,13 @@ sito e backoffice, si usano e non si modificano di passaggio.
 Il repo è diviso in aree, e ognuna ha un responsabile. Tocca solo l'area su cui
 stai lavorando: se ti serve un file di un'altra, fermati e segnalalo.
 
-<!-- TODO: scrivere il responsabile di ogni area prima di cominciare. -->
 
 | Area | Responsabile | File |
 |---|---|---|
 | Condivisa | tutti | `src/contracts/**` · `src/components/ui/**` · `src/app/layout.tsx` · `src/app/globals.css` · `CLAUDE.md` |
-| Sito pubblico | **TODO** | `src/app/page.tsx` · `src/app/posts/**` · nuove rotte pubbliche (`src/app/<nuova>/**`) |
-| Backoffice, elenco | **TODO** | `src/app/admin/page.tsx` · `src/app/admin/posts/page.tsx` · `src/app/admin/posts/_list/**` |
-| Backoffice, editor | **TODO** | `src/app/admin/posts/new/**` · `src/app/admin/posts/[id]/**` · `src/app/admin/_components/**` |
+| Sito pubblico | Fabio Biondi | `src/app/page.tsx` · `src/app/posts/**` · nuove rotte pubbliche (`src/app/<nuova>/**`) |
+| Backoffice, elenco | Mario Rossi | `src/app/admin/page.tsx` · `src/app/admin/posts/page.tsx` · `src/app/admin/posts/_list/**` |
+| Backoffice, editor | Giulia Verdi | `src/app/admin/posts/new/**` · `src/app/admin/posts/[id]/**` · `src/app/admin/_components/**` |
 | Piattaforma | nessuno: non si tocca | `src/app/api/**` · `src/server/**` · `src/data/**` |
 
 L'area **condivisa** si discute finché il progetto è in piedi da poco. Una volta
@@ -100,19 +99,14 @@ Commit piccoli, messaggi in inglese in formato conventional commit.
 
 ## Decisioni di progetto
 
-<!-- TODO: tre scelte aperte. Decidetele prima di scrivere codice, perché
-     toccano più di un'area. Sostituite "da decidere" con la risposta. -->
 
-- **formato di `content`**: da decidere — testo semplice o markdown
-- **ordinamento in `/admin/posts`**: da decidere — data di modifica o titolo
-- **conferma prima di cancellare**: da decidere — sì o no
+- **formato di `content`**: testo semplice
+- **ordinamento in `/admin/posts`**: titolo
+- **conferma prima di cancellare**: no
 
 ## Skill di design
 
-<!-- TODO: il nome della skill usata per i componenti condivisi, così chi
-     arriva dopo sa con cosa sono stati fatti e non ne usa un'altra. -->
-
-- **nome**: da compilare
+- **nome**: frontend-design
 
 ## Regole aggiunte dal team
 
